@@ -2,8 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-require('dotenv').config();
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
+const { generateToken } = require('../utils/tokenUtile');
 
 
 const register = async (req, res) => {
@@ -43,9 +42,7 @@ const login = async (req, res) => {
             return res.status(400).json({ message: "Invalid email or password" });
         }
 
-        const token = jwt.sign(
-            { id: user._id },  
-            JWT_SECRET)
+        const token = generateToken(user._id);
 
         res.status(200).json({
             message: "Login successful",

@@ -1,7 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const File = require("../models/fileModel");
-const { validateFile } = require('../utils/fileValidation')
+const { validateFile } = require('../utils/fileValidation');
+const { checkIfFileExists } = require("../utils/fileUtils");
+const { deleteFileFromSystem } = require("../utils/fileSystemUtils");
 
 
 const createFile = async (req, res) => {
@@ -10,7 +12,6 @@ const createFile = async (req, res) => {
   }
 
   try {
-    // Validate and extract file data
     const { fileName } = validateFile(req.body);
 
     if (!fileName) {
@@ -19,8 +20,8 @@ const createFile = async (req, res) => {
 
     const { path: filePath } = req.file;
 
-    // Check if the file already exists
-    const existingFile = await File.findOne({ fileName });
+    // const existingFile = await File.findOne({ fileName });
+    const existingFile = await checkIfFileExists(fileName);
     if (existingFile) {
       return res.status(409).send({ error: "A file with the same name already exists" });
     }
@@ -127,10 +128,11 @@ const deleteFile = async (req, res) => {
       return res.status(404).send({ error: "File metadata not found" });
     }
 
-    if (fs.existsSync(file.filePath)) {
-      fs.unlinkSync(file.filePath);
-    }
-
+    // if (fs.existsSync(file.filePath)) {
+    //   fs.unlinkSync(file.filePath);
+    // }
+    deleteFileFromSystem(file.filePath);
+    
     await file.deleteOne();
     res.send({
       file: file,

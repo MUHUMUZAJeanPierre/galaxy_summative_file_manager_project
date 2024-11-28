@@ -11,14 +11,14 @@ app.use(express.json());
 
 connectDB();
 app.get('/', (req, res) => {
-  const welcomeMessage = req.t('welcome'); // Fetches "Welcome to the File Manager!" from the translations
+  const welcomeMessage = req.t('welcome'); 
   res.send(welcomeMessage);
 });
 
 app.use("/files", fileRoutes);
 app.use('/', userRouter)
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

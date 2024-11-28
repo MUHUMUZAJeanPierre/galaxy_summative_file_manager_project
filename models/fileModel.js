@@ -7,4 +7,5 @@
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User"},
   });
 
-  module.exports = mongoose.model("File", FileSchema);
+  // module.exports = mongoose.model("File", FileSchema);
+  module.exports = mongoose.models.File || mongoose.model("File", FileSchema);

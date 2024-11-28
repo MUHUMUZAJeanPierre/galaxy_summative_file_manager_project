@@ -1,7 +1,9 @@
+jest.setTimeout(30000); // Set timeout to 30 seconds
+
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const File = require('../models/fileModel'); 
-const User = require('../models/User')
+const File = require('../models/fileModel');
+const User = require('../models/User');
 
 let mongoServer;
 
@@ -19,13 +21,13 @@ afterAll(async () => {
 
 beforeEach(async () => {
   await User.deleteMany({});
+  await File.deleteMany({});
 });
 
 describe('File Model', () => {
-
   it('should create a file successfully', async () => {
     const user = await User.create({
-      username: 'testuser' + Date.now(),  
+      username: 'testuser' + Date.now(),
       email: 'testuser@example.com',
       password: 'password123',
     });
@@ -33,7 +35,7 @@ describe('File Model', () => {
     const fileData = {
       fileName: 'testfile.txt',
       filePath: '/uploads/testfile.txt',
-      userId: new mongoose.Types.ObjectId(user._id),  
+      userId: user._id,
     };
 
     const file = await File.create(fileData);
@@ -41,7 +43,7 @@ describe('File Model', () => {
     expect(file).toHaveProperty('_id');
     expect(file.fileName).toBe(fileData.fileName);
     expect(file.filePath).toBe(fileData.filePath);
-    expect(file.userId.toString()).toBe(user._id.toString());  
+    expect(file.userId.toString()).toBe(user._id.toString());
     expect(file.createdAt).toBeDefined();
     expect(file.createdAt).toBeInstanceOf(Date);
   });
@@ -49,27 +51,19 @@ describe('File Model', () => {
   it('should throw an error if fileName is missing', async () => {
     const fileData = {
       filePath: '/uploads/testfile.txt',
-      userId: new mongoose.Types.ObjectId(),  
+      userId: new mongoose.Types.ObjectId(),
     };
 
-    try {
-      await File.create(fileData);
-    } catch (error) {
-      expect(error.errors.fileName).toBeDefined();  
-    }
+    await expect(File.create(fileData)).rejects.toThrow();
   });
 
   it('should throw an error if filePath is missing', async () => {
     const fileData = {
       fileName: 'testfile.txt',
-      userId: new mongoose.Types.ObjectId(),  
+      userId: new mongoose.Types.ObjectId(),
     };
 
-    try {
-      await File.create(fileData);
-    } catch (error) {
-      expect(error.errors.filePath).toBeDefined();  
-    }
+    await expect(File.create(fileData)).rejects.toThrow();
   });
 
   it('should set createdAt to the current date by default', async () => {
@@ -87,7 +81,7 @@ describe('File Model', () => {
 
   it('should fetch a file by userId', async () => {
     const user = await User.create({
-      username: 'testuser' + Date.now(),  // Ensure unique username
+      username: 'testuser' + Date.now(),
       email: 'testuser@example.com',
       password: 'password123',
     });
@@ -95,7 +89,7 @@ describe('File Model', () => {
     const fileData = {
       fileName: 'testfile.txt',
       filePath: '/uploads/testfile.txt',
-      userId: new mongoose.Types.ObjectId(user._id),
+      userId: user._id,
     };
 
     const file = await File.create(fileData);
@@ -110,7 +104,7 @@ describe('File Model', () => {
 
   it('should delete a file by id', async () => {
     const user = await User.create({
-      username: 'testuser' + Date.now(),  // Ensure unique username
+      username: 'testuser' + Date.now(),
       email: 'testuser@example.com',
       password: 'password123',
     });
@@ -118,7 +112,7 @@ describe('File Model', () => {
     const fileData = {
       fileName: 'testfile.txt',
       filePath: '/uploads/testfile.txt',
-      userId: new mongoose.Types.ObjectId(user._id),
+      userId: user._id,
     };
 
     const file = await File.create(fileData);

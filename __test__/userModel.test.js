@@ -40,7 +40,7 @@ describe('User Model', () => {
             await User.create(userData2);
         } catch (error) {
             expect(error.code).toBe(11000);
-            expect(error.message).toMatch(/duplicate key error/);  // Check for the duplicate error message
+            expect(error.message).toMatch(/duplicate key error/);  
         }
     });
 

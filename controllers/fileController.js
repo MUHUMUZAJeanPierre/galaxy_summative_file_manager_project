@@ -20,7 +20,6 @@ const createFile = async (req, res) => {
 
     const { path: filePath } = req.file;
 
-    // const existingFile = await File.findOne({ fileName });
     const existingFile = await checkIfFileExists(fileName);
     if (existingFile) {
       return res.status(409).send({ error: "A file with the same name already exists" });

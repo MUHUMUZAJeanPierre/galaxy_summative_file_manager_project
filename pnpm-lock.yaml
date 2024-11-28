@@ -38,6 +38,9 @@ importers:
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
+      mockingoose:
+        specifier: ^2.16.2
+        version: 2.16.2(mongoose@8.8.3)
       mongodb-memory-server:
         specifier: ^10.1.2
         version: 10.1.2
@@ -1271,6 +1274,12 @@ packages:
   mkdirp@0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
+
+  mockingoose@2.16.2:
+    resolution: {integrity: sha512-6JokLoDoH4yzwnZYLwoynU2lNmbfW7Mcf0d8sF580XI2hqE9Cs5l22iFTjLB51cdxkOvRtjoL84LLVEGmgcwKQ==}
+    engines: {node: '>=6.4.0'}
+    peerDependencies:
+      mongoose: '>=4.9.10'
 
   mongodb-connection-string-url@3.0.1:
     resolution: {integrity: sha512-XqMGwRX0Lgn05TDB4PyG2h2kKO/FfWJyCzYQbIhXUxz7ETt0I/FqHjUeqj37irJ+Dl1ZtU82uYyj14u2XsZKfg==}
@@ -3324,6 +3333,10 @@ snapshots:
   mkdirp@0.5.6:
     dependencies:
       minimist: 1.2.8
+
+  mockingoose@2.16.2(mongoose@8.8.3):
+    dependencies:
+      mongoose: 8.8.3
 
   mongodb-connection-string-url@3.0.1:
     dependencies:

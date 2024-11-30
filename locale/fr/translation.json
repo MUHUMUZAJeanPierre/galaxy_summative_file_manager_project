@@ -1,4 +1,37 @@
 {
-    "welcome": "Bienvenue dans le Gestionnaire de fichiers!",
-    "login": "Veuillez vous connecter pour continuer."
+    "file": {
+        "errors": {
+            "noFileUploaded": "Aucun fichier téléchargé",
+            "fileNameRequired": "Le nom du fichier est requis",
+            "fileAlreadyExists": "Un fichier avec le même nom existe déjà",
+            "idRequired": "L'ID est requis",
+            "fileNotFound": "Fichier non trouvé",
+            "noFilesFound": "Aucun fichier trouvé",
+            "errorRetrievingFiles": "Erreur lors de la récupération des fichiers ou des métadonnées",
+            "requiredFieldsMissing": "id, nom de fichier et chemin de fichier sont requis",
+            "errorUpdatingFile": "Erreur lors de la mise à jour du fichier",
+            "errorDeletingFile": "Erreur lors de la suppression du fichier ou des métadonnées"
+        },
+        "success": {
+            "fileRetrieved": "Fichier récupéré par ID avec succès",
+            "filesRetrieved": "Fichiers récupérés avec succès",
+            "fileUploadSuccess": "Fichier téléchargé avec succès",
+            "fileUpdated": "Fichier mis à jour avec succès",
+            "fileDeleted": "Fichier supprimé avec succès"
+        }
+    },
+    "user": {
+        "errors": {
+            "allFieldsRequired": "Tous les champs sont requis",
+            "emailInUse": "E-mail déjà utilisé",
+            "usernameExists": "Nom d'utilisateur déjà existant",
+            "serverErrorRegistration": "Erreur serveur lors de l'inscription",
+            "invalidCredentials": "E-mail ou mot de passe invalide",
+            "serverErrorLogin": "Erreur serveur"
+        },
+        "success": {
+            "userRegistered": "Utilisateur enregistré avec succès",
+            "loginSuccessful": "Connexion réussie"
+        }
+    }
 }

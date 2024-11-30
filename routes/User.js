@@ -7,8 +7,8 @@ userRouter.post('/register', register);
 
 userRouter.post('/login', login);
 
-userRouter.get('/login', (req, res) => {
-    res.json({ message: req.t('login') });
-});
+// userRouter.get('/login', (req, res) => {
+//     res.json({ message: req.t('login') });
+// });
 
 module.exports = userRouter;

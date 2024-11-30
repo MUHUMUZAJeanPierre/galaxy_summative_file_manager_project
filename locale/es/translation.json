@@ -1,4 +1,37 @@
 {
-    "welcome": "¡Bienvenido al Gestor de Archivos!",
-    "login": "Por favor, inicie sesión para continuar."
+    "file": {
+        "errors": {
+            "noFileUploaded": "Ningún archivo subido",
+            "fileNameRequired": "Se requiere el nombre del archivo",
+            "fileAlreadyExists": "Ya existe un archivo con el mismo nombre",
+            "idRequired": "Se requiere ID",
+            "fileNotFound": "Archivo no encontrado",
+            "noFilesFound": "No se encontraron archivos",
+            "errorRetrievingFiles": "Error al recuperar archivos o metadatos",
+            "requiredFieldsMissing": "se requieren id, nombre de archivo y ruta de archivo",
+            "errorUpdatingFile": "Error al actualizar el archivo",
+            "errorDeletingFile": "Error al eliminar el archivo o los metadatos"
+        },
+        "success": {
+            "fileRetrieved": "Archivo recuperado por ID con éxito",
+            "filesRetrieved": "Archivos recuperados con éxito",
+            "fileUploadSuccess": "Archivo subido exitosamente",
+            "fileUpdated": "Archivo actualizado con éxito",
+            "fileDeleted": "Archivo eliminado con éxito"
+        }
+    },
+    "user": {
+        "errors": {
+            "allFieldsRequired": "Todos los campos son obligatorios",
+            "emailInUse": "Correo electrónico ya en uso",
+            "usernameExists": "Nombre de usuario ya existe",
+            "serverErrorRegistration": "Error del servidor durante el registro",
+            "invalidCredentials": "Correo electrónico o contraseña inválidos",
+            "serverErrorLogin": "Error del servidor"
+        },
+        "success": {
+            "userRegistered": "Usuario registrado exitosamente",
+            "loginSuccessful": "Inicio de sesión exitoso"
+        }
+    }
 }

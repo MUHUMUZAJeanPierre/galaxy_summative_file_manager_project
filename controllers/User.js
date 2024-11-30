@@ -1,18 +1,16 @@
-const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { generateToken } = require('../utils/tokenUtile');
 
 const register = async (req, res) => {
-
     const { username, email, password } = req.body;
 
     try {
         if (!username || !email || !password) {
             console.log('Validation Error: Missing fields');
             return res.status(400).json({ 
-                message: "All fields are required",
+                message: req.t('user.errors.allFieldsRequired'),
                 missingFields: {
                     username: !username,
                     email: !email,
@@ -28,8 +26,8 @@ const register = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ 
                 message: existingUser.email === email 
-                    ? "Email already in use" 
-                    : "Username already exists" 
+                    ? req.t('user.errors.emailInUse')
+                    : req.t('user.errors.usernameExists')
             });
         }
 
@@ -44,14 +42,13 @@ const register = async (req, res) => {
 
         await newUser.save();
 
-
         res.status(201).json({ 
-            message: "User registered successfully", 
+            message: req.t('user.success.userRegistered'), 
             user: newUser
         });
     } catch (error) {
         res.status(500).json({ 
-            message: "Server error during registration", 
+            message: req.t('user.errors.serverErrorRegistration'), 
             error: error.message || "Internal server error",
             errorName: error.name
         });
@@ -63,24 +60,24 @@ const login = async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: "Invalid email or password" });
+            return res.status(400).json({ message: req.t('user.errors.invalidCredentials') });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(400).json({ message: "Invalid email or password" });
+            return res.status(400).json({ message: req.t('user.errors.invalidCredentials') });
         }
 
         const token = generateToken(user._id);
 
         res.status(200).json({
-            message: "Login successful",
+            message: req.t('user.success.loginSuccessful'),
             user: user,
             token: token,  
         });
     } catch (error) {
         console.error("Error during login:", error);
-        res.status(500).json({ message: "Server error", error: error.message });
+        res.status(500).json({ message: req.t('user.errors.serverErrorLogin'), error: error.message });
     }
 };
 

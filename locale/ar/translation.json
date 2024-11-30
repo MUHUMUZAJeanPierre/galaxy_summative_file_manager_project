@@ -1,4 +1,37 @@
 {
-    "welcome": "مرحبًا بك في مدير الملفات!",
-    "login": "الرجاء تسجيل الدخول للمتابعة."
+    "file": {
+        "errors": {
+            "noFileUploaded": "لم يتم رفع أي ملف",
+            "fileNameRequired": "اسم الملف مطلوب",
+            "fileAlreadyExists": "يوجد ملف بنفس الاسم بالفعل",
+            "idRequired": "المعرف مطلوب",
+            "fileNotFound": "الملف غير موجود",
+            "noFilesFound": "لم يتم العثور على ملفات",
+            "errorRetrievingFiles": "خطأ في استرداد الملفات أو البيانات الوصفية",
+            "requiredFieldsMissing": "المعرف واسم الملف ومسار الملف مطلوبة",
+            "errorUpdatingFile": "خطأ في تحديث الملف",
+            "errorDeletingFile": "خطأ في حذف الملف أو البيانات الوصفية"
+        },
+        "success": {
+            "fileRetrieved": "تم استرداد الملف بواسطة المعرف بنجاح",
+            "filesRetrieved": "تم استرداد الملفات بنجاح",
+            "fileUploadSuccess": "تم رفع الملف بنجاح",
+            "fileUpdated": "تم تحديث الملف بنجاح",
+            "fileDeleted": "تم حذف الملف بنجاح"
+        }
+    },
+    "user": {
+        "errors": {
+            "allFieldsRequired": "جميع الحقول مطلوبة",
+            "emailInUse": "البريد الإلكتروني قيد الاستخدام",
+            "usernameExists": "اسم المستخدم موجود بالفعل",
+            "serverErrorRegistration": "خطأ بالخادم أثناء التسجيل",
+            "invalidCredentials": "بريد إلكتروني أو كلمة مرور غير صحيحة",
+            "serverErrorLogin": "خطأ بالخادم"
+        },
+        "success": {
+            "userRegistered": "تم تسجيل المستخدم بنجاح",
+            "loginSuccessful": "تم تسجيل الدخول بنجاح"
+        }
+    }
 }

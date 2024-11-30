@@ -1,4 +1,37 @@
 {
-    "welcome": "Welcome to the File Manager!",
-    "login": "Please log in to continue."
+    "file": {
+        "errors": {
+            "noFileUploaded": "No file uploaded",
+            "fileNameRequired": "fileName is required",
+            "fileAlreadyExists": "A file with the same name already exists",
+            "idRequired": "ID is required",
+            "fileNotFound": "File not found",
+            "noFilesFound": "No files found",
+            "errorRetrievingFiles": "Error retrieving files or metadata",
+            "requiredFieldsMissing": "id, fileName, and filePath are required",
+            "errorUpdatingFile": "Error updating file",
+            "errorDeletingFile": "Error deleting file or metadata"
+        },
+        "success": {
+            "fileRetrieved": "File retrieved by id successfully",
+            "filesRetrieved": "Files retrieved successfully",
+            "fileUploadSuccess": "File uploaded successfully",
+            "fileUpdated": "File updated successfully",
+            "fileDeleted": "File deleted successfully"
+        }
+    },
+    "user": {
+        "errors": {
+            "allFieldsRequired": "All fields are required",
+            "emailInUse": "Email already in use",
+            "usernameExists": "Username already exists",
+            "serverErrorRegistration": "Server error during registration",
+            "invalidCredentials": "Invalid email or password",
+            "serverErrorLogin": "Server error"
+        },
+        "success": {
+            "userRegistered": "User registered successfully",
+            "loginSuccessful": "Login successful"
+        }
+    }
 }

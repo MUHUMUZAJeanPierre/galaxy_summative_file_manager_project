@@ -1,4 +1,3 @@
-// file: controllers/languageController.js
 const switchLanguage = (req, res) => {
     const { language } = req.body;
 

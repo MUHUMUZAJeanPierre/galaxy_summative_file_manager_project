@@ -101,7 +101,7 @@ Ensure you have the following installed:
 
   ```json
   {
-    "username": "user"
+    "username": "user",
     "email": "user@example.com",
     "password": "securepassword"
   }

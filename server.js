@@ -33,6 +33,14 @@ fileUploadQueue.on('progress', (job, progress) => {
   console.log(`Job ${job.id} progress: ${progress}%`);
 });
 
+fileUploadQueue.on('error', (error) => {
+  console.error('Queue global error:', error);
+});
+
+fileUploadQueue.on('stalled', (job) => {
+  console.warn(`Job ${job.id} is stalled`);
+});
+
 // Root route with language translation
 app.get('/', (req, res) => {
   const welcomeMessage = req.t('Welcome to file Manager'); 

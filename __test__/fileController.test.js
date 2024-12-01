@@ -9,6 +9,9 @@ const { validateFile } = require("../utils/fileValidation");
 const { checkIfFileExists } = require("../utils/fileUtils");
 const { deleteFileFromSystem } = require("../utils/fileSystemUtils");
 
+// Mock translation function
+const mockT = jest.fn((key) => key);
+
 jest.mock("../models/fileModel");
 jest.mock("../utils/fileValidation");
 jest.mock("../utils/fileUtils");
@@ -21,7 +24,11 @@ describe("fileController", () => {
 
     describe("createFile", () => {
         it("should return 400 if no file is uploaded", async () => {
-            const req = { body: {}, file: null };
+            const req = { 
+                body: {}, 
+                file: null, 
+                t: mockT 
+            };
             const res = {
                 status: jest.fn().mockReturnThis(),
                 send: jest.fn()
@@ -30,11 +37,17 @@ describe("fileController", () => {
             await createFile(req, res);
 
             expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.send).toHaveBeenCalledWith({ error: "No file uploaded" });
+            expect(res.send).toHaveBeenCalledWith({ 
+                error: "file.errors.noFileUploaded" 
+            });
         });
 
         it("should return 400 if fileName is missing", async () => {
-            const req = { body: {}, file: {} };
+            const req = {
+                body: {},
+                file: { path: "path/to/file" },
+                t: mockT
+            };
             const res = {
                 status: jest.fn().mockReturnThis(),
                 send: jest.fn()
@@ -45,13 +58,16 @@ describe("fileController", () => {
             await createFile(req, res);
 
             expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.send).toHaveBeenCalledWith({ error: "fileName is required" });
+            expect(res.send).toHaveBeenCalledWith({ 
+                error: "file.errors.fileNameRequired" 
+            });
         });
 
         it("should return 409 if a file with the same name exists", async () => {
             const req = {
                 body: { fileName: "testFile" },
-                file: { path: "path/to/file" }
+                file: { path: "path/to/file" },
+                t: mockT
             };
             const res = {
                 status: jest.fn().mockReturnThis(),
@@ -65,14 +81,15 @@ describe("fileController", () => {
 
             expect(res.status).toHaveBeenCalledWith(409);
             expect(res.send).toHaveBeenCalledWith({
-                error: "A file with the same name already exists"
+                error: "file.errors.fileAlreadyExists"
             });
         });
 
         it("should create and save the file if validation passes", async () => {
             const req = {
                 body: { fileName: "testFile" },
-                file: { path: "path/to/file" }
+                file: { path: "path/to/file" },
+                t: mockT
             };
             const res = {
                 status: jest.fn().mockReturnThis(),
@@ -111,7 +128,7 @@ describe("fileController", () => {
             // Verify response
             expect(res.status).toHaveBeenCalledWith(201);
             expect(res.send).toHaveBeenCalledWith({
-                message: "File uploaded successfully",
+                message: "file.success.fileUploadSuccess",
                 file: expect.objectContaining({
                     fileName: "testFile",
                     filePath: "path/to/file"
@@ -122,7 +139,10 @@ describe("fileController", () => {
 
     describe("deleteFile", () => {
         it("should return 400 if id is missing", async () => {
-            const req = { params: {} };
+            const req = { 
+                params: {},
+                t: mockT 
+            };
             const res = {
                 status: jest.fn().mockReturnThis(),
                 send: jest.fn()
@@ -131,11 +151,16 @@ describe("fileController", () => {
             await deleteFile(req, res);
 
             expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.send).toHaveBeenCalledWith({ error: "id is required" });
+            expect(res.send).toHaveBeenCalledWith({ 
+                error: "file.errors.idRequired" 
+            });
         });
 
         it("should return 404 if file metadata is not found", async () => {
-            const req = { params: { id: "file123" } };
+            const req = { 
+                params: { id: "file123" },
+                t: mockT
+            };
             const res = {
                 status: jest.fn().mockReturnThis(),
                 send: jest.fn()
@@ -146,11 +171,16 @@ describe("fileController", () => {
             await deleteFile(req, res);
 
             expect(res.status).toHaveBeenCalledWith(404);
-            expect(res.send).toHaveBeenCalledWith({ error: "File metadata not found" });
+            expect(res.send).toHaveBeenCalledWith({ 
+                error: "file.errors.fileNotFound" 
+            });
         });
 
         it("should delete the file metadata and file from the system", async () => {
-            const req = { params: { id: "file123" } };
+            const req = { 
+                params: { id: "file123" },
+                t: mockT
+            };
             const res = {
                 send: jest.fn()
             };
@@ -170,14 +200,17 @@ describe("fileController", () => {
             expect(mockFile.deleteOne).toHaveBeenCalled();
             expect(res.send).toHaveBeenCalledWith({
                 file: mockFile,
-                message: "File deleted successfully"
+                message: "file.success.fileDeleted"
             });
         });
     });
 
     describe("readFileById", () => {
         it("should return 400 if id is missing", async () => {
-            const req = { params: {} };
+            const req = { 
+                params: {},
+                t: mockT 
+            };
             const res = {
                 status: jest.fn().mockReturnThis(),
                 send: jest.fn()
@@ -186,11 +219,16 @@ describe("fileController", () => {
             await readFileById(req, res);
 
             expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.send).toHaveBeenCalledWith({ error: "ID is required" });
+            expect(res.send).toHaveBeenCalledWith({ 
+                error: "file.errors.idRequired" 
+            });
         });
 
         it("should return 404 if file is not found", async () => {
-            const req = { params: { id: "file123" } };
+            const req = { 
+                params: { id: "file123" },
+                t: mockT 
+            };
             const res = {
                 status: jest.fn().mockReturnThis(),
                 send: jest.fn()
@@ -201,11 +239,16 @@ describe("fileController", () => {
             await readFileById(req, res);
 
             expect(res.status).toHaveBeenCalledWith(404);
-            expect(res.send).toHaveBeenCalledWith({ error: "File not found" });
+            expect(res.send).toHaveBeenCalledWith({ 
+                error: "file.errors.fileNotFound" 
+            });
         });
 
         it("should return file metadata if file is found", async () => {
-            const req = { params: { id: "file123" } };
+            const req = { 
+                params: { id: "file123" },
+                t: mockT 
+            };
             const res = {
                 send: jest.fn()
             };
@@ -216,7 +259,7 @@ describe("fileController", () => {
             await readFileById(req, res);
 
             expect(res.send).toHaveBeenCalledWith({
-                message: "File retrieved by id successfully",
+                message: "file.success.fileRetrieved",
                 file: mockFile
             });
         });

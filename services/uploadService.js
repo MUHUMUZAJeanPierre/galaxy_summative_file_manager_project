@@ -1,4 +1,3 @@
-const { fileUploadQueue } = require('../config/queue');
 const path = require('path');
 const fs = require('fs');
 
@@ -23,6 +22,9 @@ const addFileUploadJob = async (file, userId) => {
         console.error('File does not exist', { filePath: file.path });
         throw new Error('File does not exist');
     }
+
+    // Import queue dynamically to avoid circular dependency
+    const { fileUploadQueue } = require('../config/queue');
 
     // Add job to queue
     try {

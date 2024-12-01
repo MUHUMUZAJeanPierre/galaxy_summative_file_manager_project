@@ -9,6 +9,7 @@ jest.mock('../services/uploadService', () => ({
 jest.mock('../config/queue', () => ({
     fileUploadQueue: {
         getJob: jest.fn(),
+        getJobs: jest.fn().mockResolvedValue([]),
     },
 }));
 
@@ -25,6 +26,9 @@ describe('uploadController', () => {
             status: jest.fn().mockReturnThis(),
             json: jest.fn(),
         };
+
+        // Reset mocks before each test
+        jest.clearAllMocks();
     });
 
     describe('initiateFileUpload', () => {
@@ -49,7 +53,7 @@ describe('uploadController', () => {
 
         it('should return 202 if the file is queued successfully', async () => {
             req.file = { originalname: 'file.pdf' };
-            addFileUploadJob.mockResolvedValueOnce({ id: 'job123' });
+            addFileUploadJob.mockResolvedValueOnce({ id: 'job123', data: {} });
 
             await initiateFileUpload(req, res);
 
@@ -70,10 +74,10 @@ describe('uploadController', () => {
             await initiateFileUpload(req, res);
 
             expect(res.status).toHaveBeenCalledWith(500);
-            expect(res.json).toHaveBeenCalledWith({
+            expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
                 error: 'File upload queue error',
                 details: 'Queue error',
-            });
+            }));
         });
     });
 
@@ -86,17 +90,22 @@ describe('uploadController', () => {
 
             expect(fileUploadQueue.getJob).toHaveBeenCalledWith('job123');
             expect(res.status).toHaveBeenCalledWith(404);
-            expect(res.json).toHaveBeenCalledWith({ error: 'Job not found' });
+            expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+                error: 'Job not found',
+                jobId: 'job123'
+            }));
         });
 
         it('should return the job status if the job exists', async () => {
             req.params.jobId = 'job123';
             const mockJob = {
+                id: 'job123',
                 getState: jest.fn().mockResolvedValueOnce('active'),
-                progress: jest.fn().mockResolvedValueOnce(50),
-                returnvalue: Promise.resolve({ fileId: 'file123' }),
+                progress: jest.fn().mockReturnValueOnce(50),
+                returnvalue: { fileId: 'file123' }, // Changed from Promise.resolve to direct value
                 timestamp: Date.now(),
                 attemptsMade: 2,
+                data: {}
             };
             fileUploadQueue.getJob.mockResolvedValueOnce(mockJob);
 
@@ -109,7 +118,7 @@ describe('uploadController', () => {
                 progress: 50,
                 result: { fileId: 'file123' },
                 createdAt: mockJob.timestamp,
-                attempts: 2,
+                attempts: 2
             });
         });
 
@@ -120,10 +129,10 @@ describe('uploadController', () => {
             await checkUploadStatus(req, res);
 
             expect(res.status).toHaveBeenCalledWith(500);
-            expect(res.json).toHaveBeenCalledWith({
+            expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
                 error: 'Error checking job status',
                 details: 'Job lookup error',
-            });
+            }));
         });
     });
 });

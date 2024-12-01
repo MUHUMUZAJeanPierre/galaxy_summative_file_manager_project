@@ -1,11 +1,11 @@
 # Multi-User File Manager Application
 
-## Before anything, here are the api endpoints we used when testing using postman
+#### Before anything, here are the api endpoints we used when testing using postman
 
-POST:       <http://localhost:3000/files>
-GET:        <http://localhost:3000/files>
-PUT:        <http://localhost:3000/files/6740ad6c7bfcf8bc71e75f5d>
-DELETE:     <http://localhost:3000/files/6740ad6c7bfcf8bc71e75f5d>
+- POST:       <http://localhost:3000/files>
+- GET:        <http://localhost:3000/files>
+- PUT:        <http://localhost:3000/files/6740ad6c7bfcf8bc71e75f5d>
+- DELETE:     <http://localhost:3000/files/6740ad6c7bfcf8bc71e75f5d>
 
 <!-- File Queuing urls -->
 POST: <http://localhost:3000/api/uploads/upload>
